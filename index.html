@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="be">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Трэніроўка Лічэння</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        h1 { color: #333; }
+        form { margin-top: 20px; }
+        input, select, button { font-size: 18px; padding: 8px; margin: 5px; }
+        .result { font-size: 20px; font-weight: bold; color: green; }
+    </style>
+</head>
+<body>
+    <h1>Трэніроўка Лічэння</h1>
+    <form method="POST">
+        <p>Узровень складанасці:</p>
+        <select name="level">
+            <option value="easy" {% if level == "easy" %}selected{% endif %}>Лёгкі (1-10)</option>
+            <option value="medium" {% if level == "medium" %}selected{% endif %}>Сярэдні (10-100)</option>
+            <option value="hard" {% if level == "hard" %}selected{% endif %}>Складана (100-1000)</option>
+        </select>
+        <p>{{ num1 }} {{ operation }} {{ num2 }} = ?</p>
+        <input type="text" name="answer">
+        <button type="submit">Праверыць</button>
+    </form>
+    <p class="result">{{ result }}</p>
+</body>
+</html>
