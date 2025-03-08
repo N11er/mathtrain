@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="be">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Трэнажор Лічэння</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        h1 { color: #333; }
+        input { font-size: 20px; padding: 5px; }
+        button { font-size: 20px; padding: 10px; margin-top: 10px; }
+        .correct { color: green; }
+        .wrong { color: red; }
+    </style>
+</head>
+<body>
+
+    <h1>Трэнажор вуснага лічэння</h1>
+    
+    <label for="difficulty">Узровень складанасці:</label>
+    <select id="difficulty">
+        <option value="easy">Лёгкі</option>
+        <option value="medium">Сярэдні</option>
+        <option value="hard">Складанны</option>
+    </select>
+
+    <h2 id="question">{{ question }}</h2>
+    <input type="number" id="answer" placeholder="Твой адказ">
+    <button onclick="checkAnswer()">Праверыць</button>
+
+    <p id="message"></p>
+
+    <script>
+        function checkAnswer() {
+            let userAnswer = document.getElementById("answer").value;
+            let difficulty = document.getElementById("difficulty").value;
+
+            fetch("/check", {
+                method: "POST",
+                body: JSON.stringify({ answer: userAnswer, level: difficulty }),
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "correct") {
+                    document.getElementById("message").innerHTML = "<span class='correct'>Правільна!</span>";
+                    document.getElementById("question").innerText = data.new_question;
+                    document.getElementById("answer").value = "";
+                } else {
+                    document.getElementById("message").innerHTML = "<span class='wrong'>Няправільна, паспрабуй зноў.</span>";
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
